@@ -1,3 +1,16 @@
+// ==UserScript==
+// @name         Vape V4
+// @namespace    http://7granddadpgn.github.io
+// @version      2024-07-29
+// @description  A browser script made to give enhancements on miniblox.io
+// @author       7GrandDad
+// @match        https://miniblox.io/*
+// @icon         https://miniblox.io/favicon.png
+// @grant        GM_getValue
+// @grant        GM_setValue
+// @grant        unsafeWindow
+// @run-at       document-start
+// ==/UserScript==
 let replacements = {};
 
 function addReplacement(replacement, code, replaceit) {
@@ -35,6 +48,9 @@ function modifyCode(text) {
 		let enabledModules = {};
 		let modules = {};
 
+		let keybindCallbacks = {};
+		let keybindList = {};
+
 		let tickLoop = {};
 		let renderTickLoop = {};
 
@@ -49,8 +65,16 @@ function modifyCode(text) {
 			}
 		}
 
-		console.log("payload loaded! v1.0.0");
+		let j;
+		for (j = 0; j < 26; j++) keybindList[j + 65] = keybindList["Key" + String.fromCharCode(j + 65)] = String.fromCharCode(j + 97);
+		for (j = 0; j < 10; j++) keybindList[48 + j] = keybindList["Digit" + j] = "" + j;
+		window.addEventListener("keydown", function(key) {
+			const func = keybindCallbacks[keybindList[key.code]];
+			call$1(func, key);
+		});
 	`);
+
+	addReplacement('VERSION$1," | ",', '"Vape V4 v1.0.0"," | ",');
 
 	// DRAWING SETUP
 	addReplacement('ut(this,"glintTexture");', `
@@ -210,7 +234,7 @@ function modifyCode(text) {
 	addReplacement('_&&player$1.mode.isCreative()', `||enabledModules["FastBreak"]`);
 
 	// INVWALK
-	addReplacement('keyPressed(j)&&Game.isActive(!1)', 'keyPressed(j)&&(Game.isActive(!1)||enabledModules["InvWalk"])', true);
+	addReplacement('keyPressed(j)&&Game.isActive(!1)', 'keyPressed(j)&&(Game.isActive(!1)||enabledModules["InvWalk"]&&!game.chat.showInput)', true);
 
 	// AUTORESPAWN
 	addReplacement('showDeathScreen=!0,exitPointerLock())', `
@@ -435,12 +459,12 @@ function modifyCode(text) {
 					this.func(this.enabled);
 				}
 				setbind(key, manual) {
-					if(this.bind != "") keyupCallbacks[this.bind] = undefined;
+					if(this.bind != "") keybindCallbacks[this.bind] = undefined;
 					this.bind = key;
 					if(key == "") return;
 					if(manual) game$1.chat.addChat({text: "Bound " + this.name + " to " + key + "!"});
 					const module = this;
-					keyupCallbacks[this.bind] = function(j) {
+					keybindCallbacks[this.bind] = function(j) {
 						if(Game.isActive())
 						{
 							module.toggle();
@@ -701,6 +725,10 @@ function modifyCode(text) {
 					let lastjump = 0;
 					tickLoop["Speed"] = function() {
 						lastjump++;
+                        if(lastjump % 5 == 0 && SpeedBypass[1])
+						{
+							for(let i = 0; i < 5; i++) ClientSocket.sendPacket(new SPacketPlayerPosLook({onGround: false}));
+						}
 						const oldMotion = new Vector3$1(player$1.motion.x, 0, player$1.motion.z);
 						const dir = getMoveDirection(player$1.onGround ? (lastjump < 5 ? 0.54 : speedvalue[1]) : Math.max(oldMotion.length(), 0.54));
 						lastjump = player$1.onGround ? 0 : lastjump;
@@ -711,6 +739,7 @@ function modifyCode(text) {
 				}
 				else tickLoop["Speed"] = undefined;
 			});
+            SpeedBypass = speed.addoption("SpeedBypass", Boolean, true);
 			speedvalue = speed.addoption("Speed", Number, 1.1);
 			speedjump = speed.addoption("JumpHeight", Number, 0.42);
 
