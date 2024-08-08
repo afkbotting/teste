@@ -11,6 +11,19 @@
 // @grant        unsafeWindow
 // @run-at       document-start
 // ==/UserScript==
+// ==UserScript==
+// @name         Vape V4
+// @namespace    http://7granddadpgn.github.io
+// @version      2024-07-29
+// @description  A browser script made to give enhancements on miniblox.io
+// @author       7GrandDad
+// @match        https://miniblox.io/*
+// @icon         https://miniblox.io/favicon.png
+// @grant        GM_getValue
+// @grant        GM_setValue
+// @grant        unsafeWindow
+// @run-at       document-start
+// ==/UserScript==
 let replacements = {};
 
 function addReplacement(replacement, code, replaceit) {
@@ -726,9 +739,7 @@ function modifyCode(text) {
 					tickLoop["Speed"] = function() {
 						lastjump++;
                         if(lastjump % 5 == 0 && SpeedBypass[1])
-						{
-							for(let i = 0; i < 5; i++) ClientSocket.sendPacket(new SPacketPlayerPosLook({onGround: false}));
-						}
+					    ClientSocket.sendPacket(new SPacketPlayerPosLook({onGround: false}));
 						const oldMotion = new Vector3$1(player$1.motion.x, 0, player$1.motion.z);
 						const dir = getMoveDirection(player$1.onGround ? (lastjump < 5 ? 0.54 : speedvalue[1]) : Math.max(oldMotion.length(), 0.54));
 						lastjump = player$1.onGround ? 0 : lastjump;
