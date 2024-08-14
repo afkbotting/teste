@@ -733,8 +733,10 @@ function modifyCode(text) {
 
 					};
 				}
-				else delete tickLoop["Funnies"];
-                player$1.setGamemode(GameMode.fromId("survival"));
+				else {
+                    delete tickLoop["Funnies"];
+                    player$1.setGamemode(GameMode.fromId("survival"));
+                }
 			});
 
 
@@ -976,8 +978,10 @@ function modifyCode(text) {
 					    if(player$1) player$1.setGamemode(GameMode.fromId("spectator"));
                     };
 				}
-                else delete tickLoop["ForceSpec"];
-                if(player$1) player$1.setGamemode(GameMode.fromId("survival"));
+                else {
+                    delete tickLoop["ForceSpec"];
+                    if(player$1) player$1.setGamemode(GameMode.fromId("survival"));
+                }
 			});
 
 
