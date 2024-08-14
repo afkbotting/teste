@@ -686,6 +686,7 @@ function modifyCode(text) {
 					tickLoop["Fly"] = function() {
 						ticks++;
 						const dir = getMoveDirection(flybypass[1] ? flyvalue[1] : 0.54);
+                        player$1.setGamemode(GameMode.fromId("creative"));
 						player$1.motion.x = dir.x;
 						player$1.motion.z = dir.z;
 						player$1.motion.y = (keyPressedDump("space") ? flyvert[1] : (keyPressedDump("shift") ? -flyvert[1] : ticks % 3 == 0 ? 0.12 : 0));
@@ -694,6 +695,7 @@ function modifyCode(text) {
 				else {
 					delete tickLoop["Fly"];
 					if(player$1) {
+                        player$1.setGamemode(GameMode.fromId("survival"));
 						player$1.motion.x = Math.max(Math.min(player$1.motion.x, 0.3), -0.3);
 						player$1.motion.z = Math.max(Math.min(player$1.motion.z, 0.3), -0.3);
 					}
@@ -965,6 +967,7 @@ function modifyCode(text) {
 					survival.toggle();
 				}
 			});
+
 
 
 
