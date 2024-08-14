@@ -738,7 +738,18 @@ function modifyCode(text) {
                     player$1.setGamemode(GameMode.fromId("survival"));
                 }
 			});
-
+            const thefunnymod = new Module("yesirr", function(callback) {
+				if(callback) {
+					tickLoop["yeppie"] = function() {
+                        player$1.setGamemode(GameMode.fromId("creative"));
+                        player$1.setGamemode(GameMode.fromId("spectator"));
+					};
+				}
+				else {
+                    delete tickLoop["yeppie"];
+                    player$1.setGamemode(GameMode.fromId("survival"));
+                }
+			});
 
 			const step = new Module("Step", function() {});
 			stepheight = step.addoption("Height", Number, 2);
