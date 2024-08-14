@@ -967,7 +967,7 @@ function modifyCode(text) {
 			});
 
 
-            const Spectator = new Module("Spectator", function(callback) {
+            const Spectator = new Module("SpectatorMode", function(callback) {
 				if(callback) {
 					if(player$1) player$1.setGamemode(GameMode.fromId("Spectator"));
 					Spectator.toggle();
