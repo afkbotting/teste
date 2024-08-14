@@ -726,8 +726,16 @@ function modifyCode(text) {
 				}
 				else delete tickLoop["Speed"];
 			});
-			speedvalue = speed.addoption("Speed", Number, 0.9);
-			speedjump = speed.addoption("JumpHeight", Number, 0.42);
+			const Whynot = new Module("Creative", function(callback) {
+				if(callback) {
+					tickLoop["Funnies"] = function() {
+                        player$1.setGamemode(GameMode.fromId("creative"));
+
+					};
+				}
+				else delete tickLoop["Funnies"];
+			});
+
 
 			const step = new Module("Step", function() {});
 			stepheight = step.addoption("Height", Number, 2);
