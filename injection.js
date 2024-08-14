@@ -966,6 +966,14 @@ function modifyCode(text) {
 				}
 			});
 
+
+            const survival = new Module("Spectator", function(callback) {
+				if(callback) {
+					if(player$1) player$1.setGamemode(GameMode.fromId("Spectator"));
+					survival.toggle();
+				}
+			});
+
 			globalThis.vapeModules = modules;
 			globalThis.vapeProfile = "default";
 		})();
