@@ -971,11 +971,12 @@ function modifyCode(text) {
 
 			const survival = new Module("SurvivalMode", function(callback) {
 				if(callback) {
-					if(player$1) player$1.setGamemode(GameMode.fromId("spectator"));
-     					if(player$1) player$1.setGamemode(GameMode.fromId("spectator"));
-
-					survival.toggle();
+                    tickLoop["ForceSpec"] = function() {
+					    if(player$1) player$1.setGamemode(GameMode.fromId("spectator"));
+                    };
 				}
+                else delete tickLoop["ForceSpec"];
+
 			});
 
 
